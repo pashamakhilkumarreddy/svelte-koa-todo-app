@@ -1,5 +1,5 @@
 <svelte:head>
-	<title>Home</title>
+  <title>Home</title>
 </svelte:head>
 <section class="hero is-info is-fullheight">
   <div class="hero-body">

@@ -6,11 +6,11 @@
   </div>
 </footer>
 <style>
-.footer {
-  position: absolute;
-  bottom: 0;
-  border-top: 1px solid #ddd;
-  width: 100vw;
-  padding: 1.5rem;
-}
+  .footer {
+    position: absolute;
+    bottom: 0;
+    border-top: 1px solid #ddd;
+    width: 100vw;
+    padding: 1.5rem;
+  }
 </style>

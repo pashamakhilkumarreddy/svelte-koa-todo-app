@@ -3,17 +3,27 @@
     <div class="media-content">
       <div class="content">
         <p>
-          <strong class="is-capitalized">{name}</strong> 
+          <strong class="is-capitalized">{name}</strong>
           <br />
           <small>{new Date(createdDate)}</small>
           <br />
           <span>{description}</span>
         </p>
+        <div class="todo-status">
+          <p class="has-text-weight-bold has-text-primary" class:has-text-danger={!completed}>
+            { completed ? 'Completed' : 'Pending' }
+          </p>
+          {#if completed}
+          <span class="icon has-text-primary">
+            <i class="material-icons">done</i>
+          </span>
+        {:else}
+          <span class="icon has-text-danger">
+            <i class="material-icons">pending_actions</i>
+          </span>
+        {/if} 
+        </div>
       </div>
-      <label for="completed" class="label">
-        <input type="checkbox" bind:checked={completed} />
-        Completed
-      </label>
       <nav class="level is-mobile">
         <div class="level-left">
           <span class="level-item">
@@ -27,10 +37,16 @@
     </div>
   </div>
 </div>
-
+<style>
+.todo-status {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: flex-start;
+}
+</style>
 <script>
   import TodoService from '../services/TodoService';
-  import { toggleEditModalDisplay, editModalTodoValue } from '../store';
+  import { toggleEditModalDisplay, editModalStore, todosStore } from '../store';
 
   export let _id;
   export let name;
@@ -40,7 +56,7 @@
 
   const openEditTodoModal = e => {
     toggleEditModalDisplay.update(state => !state);
-    editModalTodoValue.update(state => {
+    editModalStore.update(state => {
       return {
         id: _id,
         name, 
@@ -52,7 +68,12 @@
 
   const deleteTodo = async (e) => {
     try {
-      const deleteTodo = await TodoService.deleteTodo(e.target.dataset.id);
+      const id = e.target.dataset.id;
+      const deleteTodo = await TodoService.deleteTodo(id);
+      const { error, payload } = deleteTodo.data;
+      if (!error && payload) {
+        todosStore.update(todos => todos.filter(todo => todo._id !== id));
+      }
     } catch(err) {
       console.error(err);
     }

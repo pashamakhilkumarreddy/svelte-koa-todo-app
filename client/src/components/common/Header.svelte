@@ -5,7 +5,8 @@
         <img src="https://bulma.io/images/bulma-logo.png" alt="Logo" />
       </a>
 
-      <span role="button" class="navbar-burger burger" class:is-active="{showMobileNavbar}" aria-label="menu" aria-expanded="false" data-target="main-navbar" on:click={handleNavbarDisplay}>
+      <span role="button" class="navbar-burger burger" class:is-active="{showMobileNavbar}" aria-label="menu"
+        aria-expanded="false" data-target="main-navbar" on:click={handleNavbarDisplay}>
         <span aria-hidden="true"></span>
         <span aria-hidden="true"></span>
         <span aria-hidden="true"></span>
@@ -26,17 +27,18 @@
   </nav>
 </header>
 <style>
-.header {
-  border-bottom: 1px solid #ddd;
-  box-shadow: 0 0 0.4rem 0 rgba(0, 0, 0, 0.5);
-}
-a:hover {
-  text-decoration: none;
-}
+  .header {
+    border-bottom: 1px solid #ddd;
+    box-shadow: 0 0 0.4rem 0 rgba(0, 0, 0, 0.5);
+  }
+
+  a:hover {
+    text-decoration: none;
+  }
 </style>
 <script>
-let showMobileNavbar = false;
-const handleNavbarDisplay = () => {
-  showMobileNavbar = !showMobileNavbar;
-}
+  let showMobileNavbar = false;
+  const handleNavbarDisplay = () => {
+    showMobileNavbar = !showMobileNavbar;
+  }
 </script>

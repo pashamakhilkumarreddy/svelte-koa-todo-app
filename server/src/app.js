@@ -24,6 +24,8 @@ require('./routes')(app);
 mongoose.connect(db.MONGO_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
+  useFindAndModify: false,
+  useCreateIndex: true,
 }).then(() => {
   console.info(`Successfuly connected to the database`);
   app.listen(PORT, () => {

@@ -4,8 +4,6 @@ import {
 
 export const toggleEditModalDisplay = writable(false);
 
-export const editModalTodoValue = writable({});
-
 const editModalTodo = () => {
   const {
     subscribe,
@@ -14,18 +12,24 @@ const editModalTodo = () => {
   } = writable({});
   return {
     subscribe,
-    updateTodoValue(id, name, description, completed) {
-      update(state => {
-        return {
-          id,
-          name,
-          description,
-          completed,
-        }
-      });
-    },
+    update,
     reset: () => set({})
   }
 }
 
-export const modalValue = editModalTodo();
+const todos = () => {
+  const {
+    subscribe,
+    set,
+    update
+  } = writable([]);
+  return {
+    subscribe,
+    update,
+    reset: () => set([]),
+  }
+}
+
+export const todosStore = todos();
+
+export const editModalStore = editModalTodo();

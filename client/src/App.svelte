@@ -2,7 +2,7 @@
   import page from 'page';
 
   import '../node_modules/bulma/css/bulma.min.css';
-  
+
   import Header from './components/common/Header.svelte';
   import Footer from './components/common/Footer.svelte';
   import Home from './components/Home.svelte'

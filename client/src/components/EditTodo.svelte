@@ -1,6 +1,3 @@
-<svelte:head>
-  <title>Edit Todo</title>
-</svelte:head>
 <div class="modal is-block">
   <div class="modal-background"></div>
   <div class="modal-content">
@@ -11,22 +8,22 @@
           <label for="edit-todo-name" class="label">Todo</label>
           <div class="control">
             <input type="text" id="edit-todo-name" name="name" class="input" placeholder="Todo Name"
-              bind:value={todo.name} required />
+              bind:value={editingTodo.name} required />
           </div>
         </div>
         <div class="field">
           <label for="edit-todo-description" class="label">Todo Description</label>
           <div class="control">
             <input type="text" id="edit-todo-description" name="description" class="input"
-              placeholder="Todo Description" bind:value={todo.description} required />
+              placeholder="Todo Description" bind:value={editingTodo.description} required />
           </div>
         </div>
         <label for="completed" class="label">
-          <input type="checkbox" bind:checked={todo.completed} />
+          <input type="checkbox" bind:checked={editingTodo.completed} />
           Completed
         </label>
         <div class="control buttons">
-          <button class="button is-primary" on:click|preventDefault={editTodo} data-id="{todo.id}">Submit</button>
+          <button class="button is-primary" on:click|preventDefault={editTodo} data-id="{editingTodo.id}">Submit</button>
           <button class="button is-danger" on:click|preventDefault={closeModal}>Cancel</button>
         </div>
       </Form>
@@ -53,33 +50,35 @@
   import Form from './Form.svelte';
   import {
     toggleEditModalDisplay,
-    editModalTodoValue,
+    editModalStore,
+    todosStore,
   } from '../store';
   import TodoService from '../services/TodoService';
 
-  let todo = {};
+  let editingTodo = {};
 
   onMount(() => {
-    const unsubscribe = editModalTodoValue.subscribe(todoContent => {
-      todo = {
+    const unsubscribe = editModalStore.subscribe(todoContent => {
+      editingTodo = {
         ...todoContent
       };
     });
   });
 
   const closeModal = () => {
-    toggleEditModalDisplay.update(state => !state)
-    editModalTodoValue.update(state => {});
+    toggleEditModalDisplay.update(state => !state);
+    editModalStore.reset();
   }
 
   const editTodo = async () => {
     try {
-      const isTodoEdited = await TodoService.editTodo(todo);
+      const isTodoEdited = await TodoService.editTodo(editingTodo);
       const {
         error,
         payload
       } = isTodoEdited.data;
       if (!error && payload) {
+        todosStore.update(todos => todos.map(todo => ((todo._id !== editingTodo.id ? todo : payload.updatedTodo))));
         closeModal();
       }
     } catch (err) {

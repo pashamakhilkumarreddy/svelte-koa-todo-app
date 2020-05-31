@@ -17,6 +17,7 @@ module.exports = {
           name,
           description,
         }).save();
+        ctx.response.status = 201;
         ctx.body = {
           error: false,
           status: 201,
@@ -24,11 +25,12 @@ module.exports = {
             todo,
           },
           statusMessages: [
-            'Successfully added the new todo',
+            'Successfully added a new todo',
           ],
         };
         return;
       }
+      ctx.response.status = 400;
       ctx.body = {
         error: true,
         status: 400,
@@ -38,6 +40,7 @@ module.exports = {
       };
     } catch (err) {
       console.error(err);
+      ctx.response.status = 500;
       ctx.body = {
         error: true,
         status: 500,
@@ -52,6 +55,7 @@ module.exports = {
       const todos = await Todos.find({}).sort({
         createdDate: 'desc',
       });
+      ctx.response.status = 200;
       ctx.body = {
         error: false,
         status: 200,
@@ -64,6 +68,7 @@ module.exports = {
       };
     } catch (err) {
       console.error(err);
+      ctx.response.status = 500;
       ctx.body = {
         error: true,
         status: 500,
@@ -81,6 +86,7 @@ module.exports = {
       if (isValidObjectId(id)) {
         const todo = await Todos.findById(id);
         if (todo) {
+          ctx.response.status = 200;
           ctx.body = {
             error: false,
             status: 200,
@@ -93,6 +99,7 @@ module.exports = {
           };
           return;
         }
+        ctx.response.status = 404;
         ctx.body = {
           error: true,
           status: 404,
@@ -110,6 +117,7 @@ module.exports = {
       };
     } catch (err) {
       console.error(err);
+      ctx.response.status = 500;
       ctx.body = {
         error: true,
         status: 500,
@@ -137,6 +145,7 @@ module.exports = {
         }, {
           new: true,
         });
+        ctx.response.status = 200;
         ctx.body = {
           error: false,
           status: 200,
@@ -149,6 +158,7 @@ module.exports = {
         };
         return;
       }
+      ctx.response.status = 400;
       ctx.body = {
         error: true,
         status: 400,
@@ -158,6 +168,7 @@ module.exports = {
       };
     } catch (err) {
       console.error(err);
+      ctx.response.status = 500;
       ctx.body = {
         error: true,
         status: 500,
@@ -175,6 +186,7 @@ module.exports = {
       if (isValidObjectId(id)) {
         const todo = await Todos.findByIdAndDelete(id);
         if (todo) {
+          ctx.response.status = 200;
           ctx.body = {
             error: false,
             payload: {
@@ -187,6 +199,7 @@ module.exports = {
           };
           return;
         }
+        ctx.response.status = 403;
         ctx.body = {
           error: true,
           status: 403,
@@ -195,6 +208,7 @@ module.exports = {
           ],
         };
       }
+      ctx.response.status = 400;
       ctx.body = {
         error: true,
         status: 400,
@@ -204,6 +218,7 @@ module.exports = {
       };
     } catch (err) {
       console.error(err);
+      ctx.response.status = 500;
       ctx.body = {
         error: true,
         status: 500,
