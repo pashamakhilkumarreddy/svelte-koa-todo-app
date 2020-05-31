@@ -23,3 +23,9 @@ body {
 .mt-6 {
   margin-top: 3rem !important;
 }
+
+.todos {
+  margin-left: 1rem !important;
+  margin-right: 1rem !important;
+}
+

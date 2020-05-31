@@ -17,6 +17,7 @@
     "svelte": "^3.0.0"
   },
   "dependencies": {
+    "axios": "^0.19.2",
     "bulma": "^0.8.2",
     "page": "^1.11.6",
     "sirv-cli": "^0.4.4"
