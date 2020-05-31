@@ -24,7 +24,7 @@ module.exports = {
             todo,
           },
           statusMessages: [
-            'Successfully add the new todo',
+            'Successfully added the new todo',
           ],
         };
         return;
@@ -60,6 +60,52 @@ module.exports = {
         },
         statusMessages: [
           'Successfully fetched the todos!',
+        ],
+      };
+    } catch (err) {
+      console.error(err);
+      ctx.body = {
+        error: true,
+        status: 500,
+        statusMessages: [
+          'Internal server error',
+        ],
+      };
+    }
+  },
+  async getTodo(ctx) {
+    try {
+      const {
+        id,
+      } = ctx.params;
+      if (isValidObjectId(id)) {
+        const todo = await Todos.findById(id);
+        if (todo) {
+          ctx.body = {
+            error: false,
+            status: 200,
+            payload: {
+              todo,
+            },
+            statusMessages: [
+              'Successfully fetched the todo',
+            ],
+          };
+          return;
+        }
+        ctx.body = {
+          error: true,
+          status: 404,
+          statusMessages: [
+            'No todo found!!',
+          ],
+        };
+      }
+      ctx.body = {
+        error: true,
+        status: 400,
+        statusMessages: [
+          'Unable to fetch the todo',
         ],
       };
     } catch (err) {
